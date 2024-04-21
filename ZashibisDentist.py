@@ -4,10 +4,11 @@ import threading
 import telebot
 import os
 
-token - "write token here"
+token = "write token here"
 bot = telebot.TeleBot(token)
 
 basadannuh = {}
+last_book = [0]
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -23,7 +24,7 @@ def help(message):
 def reg(message):
     user_id = message.from_user.id
 
-    if not user_id in basadannuh and datetime.now().hour < 19 and last_book < 20:
+    if not user_id in basadannuh and datetime.now().hour < 19 and last_book[0] < 20:
         if last_book[0] > datetime.now().hour:
             bot.send_message(user_id, f"You succesfully booked for dentist in {last_book[0]}:00 this day.")
             basadannuh[user_id] = {'name': message.from_user.first_name, "time": last_book[0]}
@@ -50,3 +51,5 @@ def log():
 
 os.system('cls')
 threading.Thread(target=log).start()
+
+
